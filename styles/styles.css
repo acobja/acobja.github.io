@@ -1,0 +1,14 @@
+body {
+    background-color: #f5f5dc;
+    color: rgb(0, 50, 0);
+}
+
+h1 {
+    font-family: 'Papyrus', Arial, 'Times New Roman', serif;
+    font-size: 3rem;
+    font-weight: 900;
+}
+
+[src] {
+    width: 100%;
+}
