@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Area Calculator</title>
+    <script src="Scripts/Script.js"></script>
+</head>
+<body>
+    <h1>Triangle Measurment Calculator</h1>
+
+    <h2>Perimiter:</h2>
+    <img src="Images/Triangle Perimiter.png" alt="Image depicting ">
+    <p><label>Side a: </label>
+    <input type='text' id='perim_A'></p>
+    <p><label>Side b: </label>
+    <input type='text' id='perim_B'></p>
+    <p><label>Side c: </label>
+    <input type='text' id='perim_C'></p>
+    <button onclick="calculatePerimiter()">Calculate Perimiter</button>
+    <p>Perimiter = <span id='perimiterResult'></span></p>
+
+    <h2>Area:</h2>
+    <img src="Images/Triangle Area.png" alt="Image depicting ">
+    <p><label>base: </label>
+    <input type='text' id='base'></p>
+    <p><label>height: </label>
+    <input type='text' id='height1'></p>
+    <button onclick="calculateArea()">Calculate Area</button>
+    <p>Area = <span id='areaResult'></span></p>
+
+    <h2>Volume:</h2>
+    <img src="Images/Pyramid Volume.jpg" alt="Image depicting ">
+    <p><label>Length: </label>
+    <input type='text' id='length'></p>
+    <p><label>Width: </label>
+    <input type='text' id='width'></p>
+    <p><label>Height: </label>
+    <input type='text' id='height2'></p>
+    <button onclick="calculateVolume()">Calculate Volume</button>
+    <p>Volume = <span id='volumeResult'></span></p>
+</body>
+</html>
