@@ -86,9 +86,6 @@ function checkWin() {
     else if (c1 == c2 && c2 == c3 && c1 == "O") {
         document.getElementById("winner").innerHTML = "O wins!";
     }
-    else {
-        document.getElementById("winner").innerHTML = "Scratch, it's a tie!";
-    }
 }
 
 function resetGame() {
