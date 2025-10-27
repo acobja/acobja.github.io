@@ -1,0 +1,160 @@
+<!DOCTYPE html>
+<head>
+    <title>Dom Puzzle</title>
+    <style>
+        #puzzle {
+            width: 500px;
+            height: 500px;
+            border: 5px solid black;
+        }
+    </style>
+</head>
+<body>
+    <div id="puzzle"></div>
+
+    <script>
+        puzzle.addEventListener("mouseenter", () => {
+            puzzle.style.borderColor = 'yellow';
+        });
+        puzzle.addEventListener("mouseleave", () => {
+            puzzle.style.borderColor = 'black';
+        });
+        
+
+       let gameTitle = document.createElement("h1");
+       gameTitle.textContent = "DOM Puzzle";
+       document.body.prepend(gameTitle);
+
+       function nestedTable1() {
+        const table = document.createElement('table');
+        table.style.borderCollapse = 'collapse';
+            for (let row = 0; row < 2; row++) {
+                const tr = document.createElement('tr');
+                for (let col = 0; col < 2; col++) {
+                    const td = document.createElement('td');
+                    td.style.padding = '0px';
+                    const button = document.createElement('button');
+                    button.style.width = '125px';
+                    button.style.height = '125px';
+
+                    if (row === 0 && col === 0) {
+                        button.textContent = 'A';
+                        button.style.backgroundColor = '#9455F4';
+                    }
+                    else if (row === 0 && col === 1) {
+                        button.textContent = 'B';
+                        button.style.backgroundColor = '#4A2B74';
+                    }
+                    else if (row === 1 && col === 0) {
+                        button.textContent = 'C';
+                        button.style.backgroundColor = '#594492';
+                    }
+                    else {
+                        button.textContent = 'D';
+                        button.style.backgroundColor = '#854DDC';
+                    }
+                    button.addEventListener("click", () => {
+                        button.style.backgroundColor = '#4A2574';
+                        changeColor(button);
+                    });
+                    td.appendChild(button);
+                    tr.appendChild(td);
+
+                }
+                table.appendChild(tr)
+
+            }
+            return table;
+        }
+
+        function nestedTable2() {
+			const table = document.createElement('table');
+            table.style.borderCollapse = 'collapse';
+            for(let row = 0; row < 10; row++) {
+                const tr = document.createElement('tr');
+                for(let col = 0; col < 10; col++) {
+                    const td = document.createElement('td');
+                    td.style.padding = '0px';
+                    const button = document.createElement('button');
+                    button.setAttribute('onclick', 'changeColor(this)');
+                    button.style.backgroundColor = '#C39CFE';
+                    button.style.height = '24px';
+                    button.style.width = '25px';
+                    td.style.padding = '0';
+                    td.appendChild(button);
+                    tr.appendChild(td);
+                }
+
+                table.appendChild(tr);
+            }
+            return table;
+		}
+
+        function changeColor(button) {
+            const td = button.parentNode;
+            const tr = td.parentNode;
+            const tds = Array.from(tr.children);
+            const colNum = tds.indexOf(td);
+            button.style.backgroundColor = '#4A2574';
+
+            if (colNum > 0) {
+                const leftButton = tds[colNum - 1].firstChild;
+                leftButton.style.backgroundColor = '#FF9E00';
+            }
+
+            if (colNum < tds.length - 1) {
+                const rightButton = tds[colNum + 1].firstChild;
+                rightButton.style.backgroundColor = '#FF9E00';
+            }
+        }
+
+        function finalTable() {
+            puzzle.style.backgroundColor = '#7338A0';
+            const table = document.createElement('table'); 
+            table.style.borderCollapse = 'collapse';
+            for (let row = 0; row < 2; row++) {
+                const tr = document.createElement('tr');
+                for (let col = 0; col < 2; col++) {
+
+                    const td = document.createElement('td');
+                    td.style.padding = '0px';
+                    if (row === 0 && col === 0) {
+                        td.appendChild(nestedTable1());
+                    }
+                    else if (row === 0 && col === 1) {
+                        const background = document.createElement('div');
+                        background.style.height = '100%';
+                        background.style.width = '100%';
+                        background.style.backgroundColor = '#7338A0';
+                        td.appendChild(background);
+                    }
+                    else if (row === 1 && col === 0) {
+                        const background = document.createElement('div');
+                        background.style.height = '100%';
+                        background.style.width = '100%';
+                        background.style.backgroundColor = '#7338A0';
+                        td.appendChild(background);
+                    }
+                    else if (row === 1 && col === 1) {
+
+                        td.appendChild(nestedTable2());
+                    }
+                    tr.appendChild(td);
+                }
+                table.appendChild(tr);
+            }
+            return table;
+        }
+
+        document.getElementById('puzzle').appendChild(finalTable());
+        let gameDescription = document.createElement("p");
+        gameDescription.textContent = "This puzzle was created entirly with JavaScript.";
+        document.body.appendChild(gameDescription);
+        let porfolioLink = document.createElement("a");
+        portfolioLink.textContent = "Return to My Portfolio";
+        prtfolioLink.href = "../index.html";
+        document.body.appendChild(portfolioLink);
+
+    </script>
+</body>
+</html>
