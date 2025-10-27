@@ -76,7 +76,7 @@
                     const td = document.createElement('td');
                     td.style.padding = '0px';
                     const button = document.createElement('button');
-                    button.setAttribute('onclick', 'changeColor(this)');
+                    button.addEventListener('click', () => changeColor(button));
                     button.style.backgroundColor = '#C39CFE';
                     button.style.height = '24px';
                     button.style.width = '25px';
