@@ -1,0 +1,127 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Comment Submission Form</title>
+</head>
+<body>
+    <h1>Comment Submission Form</h1>
+    <form id="commentForm">
+        <label for="name">Name:</label>
+        <input id="name" type="text" name="name" pattern="[a-zA-Z ]+" required><br><br>
+
+        <label for="phone">Phone Number:</label>
+        <input id="phone" type="tel" name="phone" pattern="[0-9]{3}-[0-9]{3}-[0-9]{4}" placeholder="123-555-5555"><br><br>
+
+        <label for="email">Email:</label>
+        <input id="email" type="email" name="email" autocomplete="email"><br><br>
+
+        <label for="comment">Comment:</label>
+        <textarea id="comment" name="comment" placeholder="Comment here..."></textarea><br><br>
+
+        <h2>Sign Up</h2>
+
+        <label for="username">Username:</label>
+        <input id="username" type="text" name="username" placeholder="Example_name123"><br>
+        <p id="usernameMessage">username is incomplete</p><br>
+
+        <label for="password">Password:</label>
+        <input id="password" type="password" name="password" minlength="8"><br>
+        <p id="passwordMessage">password is incomplete</p><br>
+
+        <button type="submit">Comment</button>
+
+        <a href="../index.html">Return to Portfolio</a>
+    </form>
+<script>
+    let sanitizedInfo = [];
+    function sanitizeInput(info) {
+        return info
+        .replace(/&/g, "&amp;")
+        .replace(/</g, "&lt;")
+        .replace(/>/g, "&gt;")
+        .replace(/"/g, "&quot;")
+        .replace(/'/g, "&apos;");
+    }
+
+    document.getElementById("commentForm").addEventListener("submit", function(event) {
+        event.preventDefault();
+
+        let name = sanitizeInput(document.getElementById("name").value);
+        let phone = sanitizeInput(document.getElementById("phone").value);
+        let email = sanitizeInput(document.getElementById("email").value);
+        let comment = sanitizeInput(document.getElementById("comment").value);
+        let username = sanitizeInput(document.getElementById("username").value);
+        let password = sanitizeInput(document.getElementById("password").value);
+
+        sanitizedInfo.push([name, phone, email, comment, username, password]);
+        
+        console.log("sanitize Info:", sanitizedInfo);
+    });
+
+    document.getElementById("username").addEventListener("input", function() {
+                let username = this.value;
+
+                let usernameMessage = document.getElementById("usernameMessage");
+                const usernameMissing = []
+                let hasLetter = /[a-zA-Z]/.test(username);
+                if(!hasLetter)
+                    usernameMissing.push("at least 1 Letter")
+
+                let hasNumber = /[0-9]/.test(username);
+                if (!hasNumber)
+                    usernameMissing.push("at least 1 number");
+
+                let hasSpecial = /[_]/.test(username);
+                if (!hasSpecial)
+                    usernameMissing.push("at least 1 Underscore");
+
+                if (hasLetter && hasNumber  && hasSpecial) {
+                    usernameMessage.innerHTML = "Username is acceptable";
+                }
+                else {
+                    usernameMessage.innerHTML = "You are missing: " + usernameMissing;
+                }
+
+            });
+
+    document.getElementById("password").addEventListener("input", function() {
+            let password = this.value;
+
+            let passwordMessage = document.getElementById("passwordMessage");
+            const passwordMissing = []
+
+            if (password.length < 8) {
+                passwordMissing.push("8-character minimum");
+            }
+            let hasLower = /[a-z]/.test(password);
+            if (!hasLower)
+                passwordMissing.push("at least 1 lower-case letter")
+
+            let hasUpper = /[A-Z]/.test(password);
+            if (!hasUpper)
+                passwordMissing.push("at least 1 Upper-case letter")
+
+            let hasNumber = /[0-9]/.test(password);
+            if (!hasNumber)
+                passwordMissing.push("at least 1 number");
+
+            let hasSpecial = /[!@#$%^&*()]/.test(password);
+            if (!hasSpecial)
+                passwordMissing.push("at least 1 Special Character");
+
+            if (password.length > 8 && hasNumber && hasSpecial && hasUpper && hasLower) {
+                    passwordMessage.innerHTML = "Password is acceptable";
+                }
+            else {
+                passwordMessage.innerHTML = "You are missing: " + passwordMissing;
+            
+            }
+
+            
+        });
+</script>
+
+</body>
+</html>
