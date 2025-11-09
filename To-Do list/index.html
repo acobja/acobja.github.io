@@ -1,0 +1,136 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>To-Do List</title>
+    <style>
+        body.Light {
+            background-color : white;
+            color : black;
+        }
+
+        body.Dark {
+            background-color : black;
+            color : white;
+        }
+	</style>
+</head>
+<body>
+    <h2>To-Do List</h2>
+    <form id="toDoForm">
+        <input type="text" id="task" placeholder="Enter a task">
+        <button type="button" id="add">Add</button>
+        <button type="button" id="background">Light/Dark Mode</button>
+    </form>
+    <p id="taskCount">Items Added to the To-Do List: 0</p>
+
+    <ul id="taskList"></ul>
+
+    <a href="../index.html">Return to Portfolio</a>
+    
+
+
+    <script>
+
+        window.onload = function() {
+            displayTasks();
+            updateTaskCounter();
+
+            const savedTheme = getCookie('theme') || 'Light';
+            document.body.className = savedTheme;
+        };
+
+        const addButton = document.getElementById('add');
+        addButton.addEventListener('click', addTask);
+
+        const backgroundButton = document.getElementById('background');
+        backgroundButton.addEventListener('click', function () {
+            const currentTheme = document.body.className;
+            const newTheme = currentTheme === 'Light' ? 'Dark' : 'Light';
+            document.body.className = newTheme;
+            setCookie('theme', newTheme, 30);
+        });
+
+        const form = document.getElementById('toDoForm');
+        const taskCountDisplay = document.getElementById('taskCount');
+
+        
+
+        function addTask() {
+            const input = document.getElementById('task');
+            const newTask = input.value.trim();
+
+            
+            if (newTask === "") {
+                return;
+            }
+
+            let tasks = JSON.parse(localStorage.getItem('tasks')) || [];
+            tasks.push({ text: newTask });
+            localStorage.setItem('tasks', JSON.stringify(tasks));
+
+                let taskCount = sessionStorage.getItem('addTaskCount');
+            taskCount = taskCount ? parseInt(taskCount) + 1 : 1;
+            sessionStorage.setItem('addTaskCount', taskCount);
+
+            input.value = "";
+            updateTaskCounter();
+            displayTasks();
+        }
+
+        function removeTask(input) {
+            let tasks = JSON.parse(localStorage.getItem('tasks')) || [];
+            tasks.splice(input, 1);
+            localStorage.setItem('tasks', JSON.stringify(tasks));
+            displayTasks();
+        }
+
+
+        function displayTasks() {
+            const taskList = document.getElementById('taskList');
+            const tasks = JSON.parse(localStorage.getItem('tasks')) || [];
+            taskList.innerHTML = "";
+
+            if (tasks.length === 0) {
+                taskList.innerHTML = "<li>No Tasks yet</li>";
+                return;
+            }
+            tasks.forEach((task, choice) => {
+                const li = document.createElement('li');
+                li.textContent = task.text;
+
+                const remove = document.createElement('button');
+                remove.textContent = "X";
+                remove.className = "remove";
+                remove.onclick = () => removeTask(choice);
+
+                li.appendChild(remove);
+                taskList.appendChild(li);
+            });
+        }
+
+        function setCookie(name, value, days) {
+            const d = new Date();
+            d.setTime(d.getTime() + (days*24*60*60*1000));
+            document.cookie = `${name}=${value};expires=${d.toUTCString()};path=/`;
+        }
+
+        function getCookie(name) {
+            const cookies = document.cookie.split(';');
+            for (let cookie of cookies) {
+                cookie = cookie.trim();
+                if (cookie.startsWith(name + '=')) {
+                    return cookie.substring(name.length + 1);
+                }
+            }
+            return "";
+        }
+
+        function updateTaskCounter() {
+            let taskCount = sessionStorage.getItem('addTaskCount') || 0;
+            taskCountDisplay.textContent = `Items added to the To-Do List: ${taskCount}`;
+        }
+    </script> 
+</body>
+</html>
