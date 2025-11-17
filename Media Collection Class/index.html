@@ -1,0 +1,102 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Media Items</title>
+
+    <style>
+        
+        #media-container img {
+            width: 150px;
+            height: auto;
+        }
+
+        #media-container div {
+            margin-bottom: 18px;
+        }
+    </style>
+</head>
+<body>
+
+<div id="media-container"></div>
+<a href="../index.html">Return to Portfolio</a>
+
+<script>
+const jsonData = `[
+  { "title": "Bag of Holding", "rarity": "Uncommon", "price": 400, "image": "images/bag.jpg" },
+  { "title": "Deck of Many Things", "rarity": "Legendary", "price": 10000, "image": "images/Deck.jpg" },
+  { "title": "Drift Globe", "rarity": "Uncommon", "price": 500, "image": "images/globe.jpg" }
+]`;
+
+class MediaItem {
+    #price; 
+
+    constructor(title, rarity, price, image) {
+        this.title = title;
+        this.rarity = rarity;
+        this.image = image;
+        this.price = price;
+    }
+
+    get price() {
+        return this.#price;
+    }
+
+    set price(val) {
+        if (Number(val) < 0){
+            return;
+        }
+        this.#price = val;
+    }
+    
+
+    toString() {
+        return `${this.title} - ${this.rarity} - ${this.price}`;
+    }
+
+    makeElem() {
+        const wrap = document.createElement("div");
+
+        let img = document.createElement("img");
+        img.src = this.image;
+        wrap.appendChild(img);
+
+        let t = document.createElement("p");
+        t.textContent = this.title;
+        wrap.appendChild(t);
+
+        let r = document.createElement("p");
+        r.textContent = this.rarity;
+        wrap.appendChild(r);
+
+        let p = document.createElement("p");
+        p.textContent = this.price;
+        wrap.appendChild(p);
+
+        return wrap;
+    }
+}
+
+let parsed;
+try {
+    parsed = JSON.parse(jsonData);
+} catch(e) {
+    console.error("The JSON didn't load correctly", e);
+}
+
+let items = [];
+
+for (let i = 0; i < parsed.length; i++) {
+    const magicItem = parsed[i];
+    items.push(new MediaItem(magicItem.title, magicItem.rarity, magicItem.price, magicItem.image));
+}
+
+const container = document.getElementById("media-container");
+
+items.forEach(function(m){
+    container.appendChild(m.makeElem());
+});
+</script>
+
+</body>
+</html>
